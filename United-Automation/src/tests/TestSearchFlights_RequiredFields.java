@@ -1,19 +1,17 @@
 package tests;
 
+import javax.swing.JOptionPane;
+
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.testng.annotations.AfterClass;
 
 import common.PageBase;
 import common.TestData;
 import pages.FlightSelectionPage;
 import pages.HomePage;
-//import pages.ListingPage;
 
-import javax.swing.JOptionPane;
-
-
-public class TestSearchFlight extends PageBase {
+public class TestSearchFlights_RequiredFields extends PageBase {
 
 	@BeforeClass
 	public void setUp() throws Exception {
@@ -24,7 +22,7 @@ public class TestSearchFlight extends PageBase {
 	}
 	
 	@Test
-	public void testSearchFlight() throws InterruptedException {
+	public void testSearchFlight_RequiredFields() throws InterruptedException {
 		
 		 /*
 		  * Book a flight
@@ -34,22 +32,39 @@ public class TestSearchFlight extends PageBase {
 	     	Click on find fights
 	     	Verify that some results are displayed
 		*/
+		// Click "Find flights" button without having entered required fields
+		HomePage.clickFindFlights();
+		
+		// Verify that there are errors for the required fields
+		HomePage.verifyErrorMessagesRequiredFields();
 		
 		HomePage.enterOrigin(TestData.cityOrigin);
+		HomePage.verifyErrorMessagesRequiredFields();
+		
 		HomePage.enterDestination(TestData.cityDestination);
+		HomePage.verifyErrorMessagesRequiredFields();
+		
 		HomePage.enterDepartureDate(TestData.departureDate);
+		HomePage.hideCalendar();
+		HomePage.clickFindFlights();
+		HomePage.verifyErrorMessagesRequiredFields();
+		
 		HomePage.enterReturnDate(TestData.returnDate);
+		HomePage.verifyErrorMessagesRequiredFields();
+		
 		HomePage.clickSelectTravelers();
 		HomePage.selectTravelers("Adults", TestData.numTravelersAdult);
 		HomePage.verifyAmountTravelers();
+		
+		//HomePage.selectTravelers("Infants on lap", "1");
 		//HomePage.selectTravelerCategory(TestData.premiumEconomy);
 		HomePage.clickFindFlights();
 		
 		FlightSelectionPage.verifySearchData(TestData.cityOrigin, TestData.cityDestination, TestData.departureDate, TestData.returnDate);
 	
 	}
+
 	
-		
 	@AfterClass
 	public void finishTest() {
 		
@@ -59,4 +74,5 @@ public class TestSearchFlight extends PageBase {
 		driver.quit();
 		
 	}
+	
 }

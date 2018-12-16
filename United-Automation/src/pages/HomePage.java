@@ -1,55 +1,15 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import common.Identifiers;
 import common.PageBase;
 import common.TestData;
 
 public class HomePage extends PageBase {
-
-	
-	// Change language of the Web site to "lang"
-	public static void changeLanguage(String lang) {
-		
-		String currentLanguage = driver.findElement(By.xpath("//*[@id='gh-eb-Geo-a-default']/span[2]")).getText();
-				
-		// If the current language is not 'lang' (e.g.:'English'), then select lang from dropdown list
-		if (!currentLanguage.equals(lang)) {
-			
-			String xpathDropdown = "//*[@id='gh-eb-Geo-a-default']";
-			driver.findElement(By.xpath(xpathDropdown)).click();
-			
-			String xpathLang = "//*[@id='gh-eb-Geo-o']/ul/li/a/span[text()='" + lang + "']";
-			
-			WebDriverWait wait = new WebDriverWait(driver, 5);
-			wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathLang)));
-			
-			driver.findElement(By.xpath(xpathLang)).click();
-			
-		}
-		
-	}
-	
-	
-	// Search products by "value" specified
-	public static void searchBy(String value) {
-		
-		String xpathInput = "//input[@id='gh-ac']";
-		
-		driver.findElement(By.xpath(xpathInput)).clear();
-		driver.findElement(By.xpath(xpathInput)).sendKeys(value);
-		
-		// Click Search button
-		String xpathButton = "//input[@value='Search']";
-		
-		driver.findElement(By.xpath(xpathButton)).submit();
-		
-	}
-
 
 	public static void enterOrigin(String origin) {
 		
@@ -200,6 +160,56 @@ public class HomePage extends PageBase {
 	public static void clickFindFlights() {
 		
 		driver.findElement(By.xpath("//button/span[text()='Find flights']/..")).submit();
+		
+	}
+
+
+	public static void verifyErrorMessagesRequiredFields() {
+		
+				
+		if(driver.findElement(By.id(Identifiers.idBookOrigin)).getAttribute("value").isEmpty()) {
+			
+			String actual = driver.findElement(By.xpath("//div[@class='app-components-BookFlightForm-bookFlightForm__pickupContainer--Gekxg']/div[@class='app-components-BookFlightForm-bookFlightForm__fieldErrorMessage--1z3VT']/span")).getText();
+			String expected = "Please enter a valid origin.";
+			
+			Assert.assertEquals(actual, expected);
+			
+		}
+		
+		if(driver.findElement(By.id(Identifiers.idBookDestination)).getAttribute("value").isEmpty()) {
+			
+			String actual = driver.findElement(By.xpath("//div[@class='app-components-BookFlightForm-bookFlightForm__destinationPickupContainer--1_8vd']/div[@class='app-components-BookFlightForm-bookFlightForm__fieldErrorMessage--1z3VT']/span")).getText();
+			String expected = "Please enter a valid destination.";
+			
+			Assert.assertEquals(actual, expected);
+			
+		}
+
+		if(driver.findElement(By.id(Identifiers.idBookDepartDate)).getAttribute("value").isEmpty()) {
+			
+			String actual = driver.findElement(By.xpath("//div[@class='app-components-BookCalendarRoundtrip-bookCalendarRoundtrip__inputFieldErrorMsg--2bvVx']/span")).getText();
+			String expected = "Please enter a valid departure date.";
+			
+			Assert.assertEquals(actual, expected);
+			
+		}
+		
+		if(!driver.findElement(By.id(Identifiers.idBookDepartDate)).getAttribute("value").isEmpty() 
+				&& driver.findElement(By.id(Identifiers.idBookReturnDate)).getAttribute("value").isEmpty()) {
+			
+			String actual = driver.findElement(By.xpath("//div[@class='app-components-BookCalendarRoundtrip-bookCalendarRoundtrip__inputFieldErrorMsg--2bvVx']/span")).getText();
+			String expected = "Please enter a valid return date.";
+			
+			Assert.assertEquals(actual, expected);
+			
+		}
+		
+	}
+
+
+	public static void hideCalendar() {
+
+		driver.findElement(By.id(Identifiers.idBookReturnDate)).sendKeys(Keys.ESCAPE);	
 		
 	}
 
