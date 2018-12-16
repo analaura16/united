@@ -26,25 +26,29 @@ public class TestSearchFlight extends PageBase {
 	@Test
 	public void testSearchFlight() throws InterruptedException {
 		
-		 /*
-		  * Book a flight
-	     	Navigate to https://www.united.com/en/us/
-	     	Select flight
-	     	Fill the required info (from* , to*, dates, travelers , class)
-	     	Click on find fights
-	     	Verify that some results are displayed
-		*/
-		
+		// Fill in "From" field		
 		HomePage.enterOrigin(TestData.cityOrigin);
+		
+		// Fill in "To" field
 		HomePage.enterDestination(TestData.cityDestination);
+		
+		// Enter Departure date
 		HomePage.enterDepartureDate(TestData.departureDate);
+		
+		// Enter Return date
 		HomePage.enterReturnDate(TestData.returnDate);
+		
+		// Select number of travelers
 		HomePage.clickSelectTravelers();
 		HomePage.selectTravelers("Adults", TestData.numTravelersAdult);
 		HomePage.verifyAmountTravelers();
+		
 		//HomePage.selectTravelerCategory(TestData.premiumEconomy);
+		
+		// Click "Find flights" button
 		HomePage.clickFindFlights();
 		
+		// Verify that the data displayed corresponds to the data entered in previous steps
 		FlightSelectionPage.verifySearchData(TestData.cityOrigin, TestData.cityDestination, TestData.departureDate, TestData.returnDate);
 	
 	}

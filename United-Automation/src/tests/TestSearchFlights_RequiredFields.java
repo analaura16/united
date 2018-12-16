@@ -24,42 +24,39 @@ public class TestSearchFlights_RequiredFields extends PageBase {
 	@Test
 	public void testSearchFlight_RequiredFields() throws InterruptedException {
 		
-		 /*
-		  * Book a flight
-	     	Navigate to https://www.united.com/en/us/
-	     	Select flight
-	     	Fill the required info (from* , to*, dates, travelers , class)
-	     	Click on find fights
-	     	Verify that some results are displayed
-		*/
 		// Click "Find flights" button without having entered required fields
 		HomePage.clickFindFlights();
 		
 		// Verify that there are errors for the required fields
 		HomePage.verifyErrorMessagesRequiredFields();
 		
+		// Fill in "From" field
 		HomePage.enterOrigin(TestData.cityOrigin);
 		HomePage.verifyErrorMessagesRequiredFields();
 		
+		// Fill in "To" field
 		HomePage.enterDestination(TestData.cityDestination);
 		HomePage.verifyErrorMessagesRequiredFields();
 		
+		// Enter Departure date
 		HomePage.enterDepartureDate(TestData.departureDate);
 		HomePage.hideCalendar();
 		HomePage.clickFindFlights();
 		HomePage.verifyErrorMessagesRequiredFields();
-		
+	
+		// Enter Return date
 		HomePage.enterReturnDate(TestData.returnDate);
 		HomePage.verifyErrorMessagesRequiredFields();
 		
+		// Select number of travelers
 		HomePage.clickSelectTravelers();
 		HomePage.selectTravelers("Adults", TestData.numTravelersAdult);
 		HomePage.verifyAmountTravelers();
 		
-		//HomePage.selectTravelers("Infants on lap", "1");
-		//HomePage.selectTravelerCategory(TestData.premiumEconomy);
+		// Click "Find flights" button
 		HomePage.clickFindFlights();
 		
+		// Verify that the data displayed corresponds to the data entered in previous steps
 		FlightSelectionPage.verifySearchData(TestData.cityOrigin, TestData.cityDestination, TestData.departureDate, TestData.returnDate);
 	
 	}
