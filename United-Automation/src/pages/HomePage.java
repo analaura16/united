@@ -128,20 +128,6 @@ public class HomePage extends PageBase {
 		
 		Assert.assertTrue(expected.startsWith(Integer.toString(totalAmountTravelers)));
 		
-		
-		// This will be used when more than one kind of traveler is selected. 
-		/*
-		
-		
-		int totalAmountTravelers = TestData.numTravelersAdult + TestData.numTravelersSenior + TestData.numTravelersInfant 
-				+ TestData.numTravelersInfantLap + TestData.numTravelersChildren15_17 + TestData.numTravelersChildren12_14 
-				+ TestData.numTravelersChildren5_11 + TestData.numTravelersChildren2_4;
-		
-		String actual = totalAmountTravelers + " travelers";
-		String expected = driver.findElement(By.id("bookFlightModel.passengers")).getAttribute("value");
-		
-		Assert.assertEquals(actual, expected);
-		*/
 	}
 
 
